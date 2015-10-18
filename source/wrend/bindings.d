@@ -4,7 +4,7 @@
  * License:
  *     MIT. See LICENSE for full details.
  */
-module wren.bindings;
+module wrend.bindings;
 
 import core.stdc.stdarg;
 
