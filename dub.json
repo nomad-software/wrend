@@ -1,10 +1,11 @@
 {
 	"name": "wrend",
-	"description": "Bindings to the Wren language for the D programming language",
+	"description": "Bindings to the Wren language for use with the D programming language",
 	"homepage": "https://github.com/nomad-software/wrend",
 	"authors": ["Gary Willoughby"],
 	"copyright": "Copyright (c) 2015 Gary Willoughby",
 	"license": "MIT",
+	"sourceFiles-linux-x86_64": ["lib/linux/x86_64/libwren.a"],
 	"excludedSourceFiles": [
 		"source/c/*",
 	],
