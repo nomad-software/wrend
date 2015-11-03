@@ -18,26 +18,17 @@ https://github.com/munificent/wren
 
 ### Example
 ```d
-import std.conv;
-import std.exception;
-import std.stdio;
-import wrend.bindings;
+import wrend;
 
 void main(string[] args)
 {
-	WrenWriteFn writeFunction = function(WrenVM* vm, const(char)* text) {
-		assumeWontThrow(write(text.to!(string)));
-	};
+	Wren.initialHeapSize(1024 * 32);
+	Wren.minHeapSize(1024);
+	Wren.heapGrowthPercent(50);
 
-	WrenConfiguration config;
-	wrenInitConfiguration(&config);
-	config.writeFn = writeFunction;
+	auto vm = Wren.create();
 
-	WrenVM* vm = wrenNewVM(&config);
-	scope (exit) wrenFreeVM(vm);
-
-	WrenInterpretResult result = wrenInterpret(vm, `System.print("Hello, world!")`);
-	writeln(result);
+	vm.execute(`System.print("Hello, world!")`);
 }
 ```
 

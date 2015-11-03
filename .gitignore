@@ -1,4 +1,7 @@
 dub.selections.json
-.dub/*
+.dub/**
 build/*
-*.html
+bindings.html
+package.html
+example.html
+package.html

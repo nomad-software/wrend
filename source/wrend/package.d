@@ -6,4 +6,4 @@
  */
 module wrend;
 
-public import wrend.bindings;
+public import wrend.wren;
