@@ -26,12 +26,9 @@ import wrend.vm;
  *
  * void main(string[] args)
  * {
- * 	Wren.initialHeapSize(1024 * 32);
- * 	Wren.minHeapSize(1024);
- * 	Wren.heapGrowthPercent(50);
- * 
+ * 	Wren.setHeap(10_485_760, 1_048_576, 50);
+ *
  * 	auto vm = Wren.create();
- * 
  * 	vm.execute(`System.print("Hello, world!")`);
  * }
  * ---
@@ -60,75 +57,21 @@ static final class Wren
 	}
 
 	/**
-	 * Configure the initial heap size. If not set, the virtual machine 
-	 * defaults to a heap size of 10Mb.
+	 * Configure the virtual machine's heap size in bytes.
+	 *
+	 * By default the initial heap size is 10Mb, the minimum heap size is 1Mb 
+	 * and the heap growth percentage is 50%.
 	 *
 	 * Params:
-	 *     size = The initial heap size in bytes.
-	 *
-	 * ---
-	 * import wrend;
-	 *
-	 * void main(string[] args)
-	 * {
-	 * 	Wren.initialHeapSize(10_485_760) // 10Mb
-	 *
-	 * 	auto vm = Wren.create();
-	 * 	vm.execute(`System.print("Hello, world!")`);
-	 * }
-	 * ---
+	 *     initialSize = The initial heap size in bytes.
+	 *     minSize = The minimum heap size in bytes.
+	 *     percentGrowth = The percentage by which the heap will grow when exhausted.
 	 */
-	static public void initialHeapSize(size_t size)
+	static public void setHeap(size_t initialSize, size_t minSize, int percentGrowth)
 	{
-		this._config.initialHeapSize = size;
-	}
-
-	/**
-	 * Configure the minimum heap size. If not set, the virtual machine 
-	 * defaults to a minimum heap size of 1Mb.
-	 *
-	 * Params:
-	 *     size = The minimum heap size in bytes.
-	 *
-	 * ---
-	 * import wrend;
-	 *
-	 * void main(string[] args)
-	 * {
-	 * 	Wren.minHeapSize(1_048_576) // 1Mb
-	 *
-	 * 	auto vm = Wren.create();
-	 * 	vm.execute(`System.print("Hello, world!")`);
-	 * }
-	 * ---
-	 */
-	static public void minHeapSize(size_t size)
-	{
-		this._config.minHeapSize = size;
-	}
-
-	/**
-	 * Configure the percentage by which the heap will grow when exhausted. If 
-	 * not set, the virtual machine defaults to a growth percentage of 50%.
-	 *
-	 * Params:
-	 *     percent = The percentage by which the heap will grow.
-	 *
-	 * ---
-	 * import wrend;
-	 *
-	 * void main(string[] args)
-	 * {
-	 * 	Wren.heapGrowthPercent(50) // 50%
-	 *
-	 * 	auto vm = Wren.create();
-	 * 	vm.execute(`System.print("Hello, world!")`);
-	 * }
-	 * ---
-	 */
-	static public void heapGrowthPercent(int percent)
-	{
-		this._config.heapGrowthPercent = percent;
+		this._config.initialHeapSize   = initialSize;
+		this._config.minHeapSize       = minSize;
+		this._config.heapGrowthPercent = percentGrowth;
 	}
 
 	/**

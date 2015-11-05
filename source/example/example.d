@@ -19,9 +19,7 @@ import wrend;
  */
 void main(string[] args)
 {
-	Wren.initialHeapSize(1024 * 32);
-	Wren.minHeapSize(1024);
-	Wren.heapGrowthPercent(50);
+	Wren.setHeap(1024 * 32, 1024, 50);
 
 	auto vm = Wren.create();
 
