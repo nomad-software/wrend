@@ -22,8 +22,6 @@ import wrend;
 
 void main(string[] args)
 {
-	Wren.setHeap(1024 * 32, 1024, 50);
-
 	auto vm = Wren.create();
 
 	vm.execute(`System.print("Hello, world!")`);

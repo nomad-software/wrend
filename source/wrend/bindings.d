@@ -27,19 +27,19 @@ struct WrenValue;
 // A generic allocation function that handles all explicit memory management
 // used by Wren. It's used like so:
 //
-// - To allocate new memory, [memory] is NULL and [newSize] is the desired
+// - To allocate new memory, [pointer] is NULL and [size] is the desired
 //   size. It should return the allocated memory or NULL on failure.
 //
-// - To attempt to grow an existing allocation, [memory] is the memory, and
-//   [newSize] is the desired size. It should return [memory] if it was able to
+// - To attempt to grow an existing allocation, [pointer] is the memory, and
+//   [size] is the desired size. It should return [pointer] if it was able to
 //   grow it in place, or a new pointer if it had to move it.
 //
-// - To shrink memory, [memory] and [newSize] are the same as above but it will
-//   always return [memory].
+// - To shrink memory, [pointer] and [size] are the same as above but it will
+//   always return [pointer].
 //
-// - To free memory, [memory] will be the memory to free and [newSize] will be
+// - To free memory, [pointer] will be the memory to free and [size] will be
 //   zero. It should return NULL.
-alias WrenReallocateFn = void* function(void* memory, size_t newSize);
+alias WrenReallocateFn = void* function(void* pointer, size_t size);
 
 // A function callable from Wren code, but implemented in C.
 alias WrenForeignMethodFn = void function(WrenVM* vm);

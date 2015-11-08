@@ -19,23 +19,41 @@
 </h2>
 <div class="declaration-description"><div class="sections"><p>Factory class for creating a <span class="symbol">Wren</span> VM.
 </p>
-<p> Using this class allows you to configure a <span class="symbol">Wren</span> virtual machine before
+<p>Using this class allows you to configure a <span class="symbol">Wren</span> virtual machine before
  creating it.
-<br><br>
 
+</p>
+<p><h3>Example:</h3>
 <pre><span class="keyword">import</span> wrend;
 
 <span class="keyword">void</span> main(string[] args)
 {
-	<span class="symbol">Wren</span>.setHeap(10_485_760, 1_048_576, 50);
-
 	<span class="keyword">auto</span> vm = <span class="symbol">Wren</span>.create();
 	vm.execute(<span class="string">`System.print("Hello, world!")`</span>);
 }
 </pre>
 </p>
 </div>
-<div class="class-members"><h2><a name="Wren.setHeap"></a>static void <span class="symbol">setHeap</span>(size_t initialSize, size_t minSize, int percentGrowth);
+<div class="class-members"><h2><a name="Wren.create"></a>static VM <span class="symbol">create</span>();
+</h2>
+<div class="declaration-description"><div class="sections"><p>Create a Wren virtual machine.
+</p>
+<h3>Return Value</h3><p>A Wren virtual machine.
+
+</p>
+<p><h3>Example:</h3>
+<pre><span class="keyword">import</span> wrend;
+
+<span class="keyword">void</span> main(string[] args)
+{
+	<span class="keyword">auto</span> vm = Wren.<span class="symbol">create</span>();
+	vm.execute(<span class="string">`System.print("Hello, world!")`</span>);
+}
+</pre>
+</p>
+</div>
+</div>
+<h2><a name="Wren.setHeap"></a>static nothrow void <span class="symbol">setHeap</span>(size_t initialSize, size_t minSize, int percentGrowth);
 </h2>
 <div class="declaration-description"><div class="sections"><p>Configure the virtual machine's heap size in bytes.
 </p>
@@ -50,13 +68,73 @@
 <tr><td>int percentGrowth</td>
 <td>The percentage by which the heap will grow when exhausted.</td></tr>
 </table>
-</div>
-</div>
-<h2><a name="Wren.create"></a>static VM <span class="symbol">create</span>();
-</h2>
-<div class="declaration-description"><div class="sections"><p>Create a Wren virtual machine.
+<p><h3>Example:</h3>
+<pre><span class="keyword">import</span> wrend;
+
+<span class="keyword">void</span> main(string[] args)
+{
+	Wren.<span class="symbol">setHeap</span>(10_485_760, 1_048_576, 50);
+
+	<span class="keyword">auto</span> vm = Wren.create();
+	vm.execute(<span class="string">`System.print("Hello, world!")`</span>);
+}
+</pre>
 </p>
-<h3>Return Value</h3><p>A Wren virtual machine.</p>
+</div>
+</div>
+<h2><a name="Wren.setAllocationFunction"></a>static nothrow void <span class="symbol">setAllocationFunction</span>(WrenReallocateFn func);
+</h2>
+<div class="declaration-description"><div class="sections"><p>Set the function which is responsible for all memory allocation in the
+ Wren virtual machine.
+</p>
+<h3>Parameters</h3><table class="parameter-list"><tr><td>WrenReallocateFn func</td>
+<td>The function that handles memory allocations.</td></tr>
+</table>
+<p><h3>Function Signature:</h3>
+<pre><span class="keyword">extern</span>(C) <span class="keyword">void</span>* <span class="keyword">function</span>(<span class="keyword">void</span>* pointer, size_t size) <span class="keyword">nothrow</span>
+</pre>
+
+</p>
+<p><h3>Allocation:</h3>
+During the function call, if the pointer is <strong>null</strong> then size is the
+     amount of bytes to allocate. Return a pointer to the newly allocated
+     memory or <strong>null</strong> on failure.
+
+</p>
+<p><h3>Reallocation:</h3>
+During the function call, if the pointer is not <strong>null</strong> then size is
+     the newly desired amount of bytes to allocate. Return the same
+     pointer if it was able to grow or shrink in place, or a new one if
+     not.
+
+</p>
+<p><h3>Freeing:</h3>
+If the size is zero, the pointer should be freed and <strong>null</strong> returned.
+
+</p>
+<p><h3>Example:</h3>
+<pre><span class="keyword">import</span> wrend;
+<span class="keyword">import</span> core.stdc.stdlib;
+
+<span class="keyword">extern</span>(C) <span class="keyword">void</span>* allocator(<span class="keyword">void</span>* pointer, size_t size) <span class="keyword">nothrow</span>
+{
+	<span class="keyword">if</span> (size == 0)
+	{
+		free(pointer);
+		<span class="keyword">return</span> <span class="keyword">null</span>;
+	}
+	<span class="keyword">return</span> realloc(pointer, size);
+}
+
+<span class="keyword">void</span> main(string[] args)
+{
+	Wren.<span class="symbol">setAllocationFunction</span>(&amp;allocator);
+
+	<span class="keyword">auto</span> vm = Wren.create();
+	vm.execute(<span class="string">`System.print("Hello, world!")`</span>);
+}
+</pre>
+</p>
 </div>
 </div>
 </div>
