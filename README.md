@@ -17,6 +17,10 @@ https://github.com/munificent/wren
 ## Usage
 
 ### Example
+
+The simplest example of embedding and using Wren is as follows. This uses the 
+default virtual machine configuration.
+
 ```d
 import wrend;
 

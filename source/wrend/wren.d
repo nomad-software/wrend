@@ -18,8 +18,8 @@ import wrend.vm;
 /**
  * Factory class for creating a Wren VM.
  *
- * Using this class allows you to configure a Wren virtual machine before 
- * creating it.
+ * Using this class allows you to optionally configure and create a Wren 
+ * virtual machine.
  *
  * Example:
  * ---

@@ -9,10 +9,11 @@ module main;
 /**
  * Imports.
  */
+import core.stdc.stdlib;
 import wrend;
 
 /**
- * Customer allocator.
+ * Custom allocator.
  *
  * Params:
  *     pointer = A pointer that may point to existing memory.
@@ -20,7 +21,6 @@ import wrend;
  */
 extern(C) void* allocator(void* pointer, size_t size) nothrow
 {
-	import core.stdc.stdlib;
 	if (size == 0)
 	{
 		free(pointer);
