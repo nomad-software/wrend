@@ -14,6 +14,11 @@ http://munificent.github.io/wren/
 ### Github
 https://github.com/munificent/wren
 
+## Status
+
+This project is not abandoned, just waiting for Wren to mature a little before
+continuing.
+
 ## Usage
 
 ### Example
